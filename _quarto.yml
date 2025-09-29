@@ -1,0 +1,23 @@
+project:
+  type: book
+
+book:
+  title: "구글 드라이브 DB화"
+  author: "신사업실"
+  date: "9/28/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+  
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

@@ -1,0 +1,1294 @@
+---
+title: "구글 드라이브 DB화 및 효율적 검색 엔진 구축"
+subtitle: "스마트 홈 IoT 기업을 위한 폴더-서브폴더-파일명 표준화 체계"
+author: "아카라라이프 신사업실"
+date: today
+date-format: "YYYY년 MM월 DD일"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-title: "목차"
+    number-sections: true
+    code-fold: true
+    code-summary: "코드 보기/숨기기"
+    theme: cosmo
+    css: styles.css
+    embed-resources: true
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+  docx:
+    toc: true
+    number-sections: true
+    highlight-style: github
+lang: ko
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+
+# 개요
+
+Aqara 공용 드라이브의 현재 9개 주요 폴더를 기반으로 한 완전한 파일명 표준화 체계입니다. 본 가이드는 실제 파일 구조를 분석하여 **조직 변화에 유연한 기능별 분류 체계**와 **AI 활용을 고려한 검색 최적화**를 동시에 달성하는 실용적 솔루션을 제공합니다.
+
+## 핵심 원칙
+
+- **기존 시스템 연속성 유지**: 급격한 변화 없이 점진적 개선
+- **검색 효율성 극대화**: 코드 기반 즉시 파일 식별 가능
+- **협업 생산성 향상**: 명확한 버전 관리와 상태 추적
+- **향후 AI 활용 대비**: 시맨틱 레이어 기반 명명 체계
+
+# 폴더 코드 체계
+
+현재 Aqara 드라이브의 9개 폴더를 다음과 같이 코드화합니다:
+
+| 폴더번호 | 폴더명 | 코드 | 설명 | 주요 업무 |
+|----------|--------|------|------|----------|
+| 00 | 아카라 표준 업무 프로세스 | `PROC` | Process Standards | 업무 프로세스 표준화 |
+| 01 | 회사 주요 서류 | `CORP` | Corporate Documents | 법인 공식 문서 |
+| 02 | 회사 소개서 및 제안서 | `COMP` | Company Presentation | 마케팅 및 영업 자료 |
+| 03 | 제품별 소개 자료 | `PROD` | Product Information | 제품 기술 문서 |
+| 04 | 솔루션 소개 자료 | `SOL` | Solution Portfolio | 솔루션 아키텍처 |
+| 05 | 계약서 및 대외협정서 | `CONT` | Contracts | 법무 및 계약 관리 |
+| 06 | KC/SmartThings 인증현황 | `CERT` | Certifications | 인증 및 컴플라이언스 |
+| 07 | 전사 제작물 (브로셔, ...) | `MARK` | Marketing Materials | 마케팅 제작물 |
+| 08 | 스마트한 아카라 생활 가이드 | `GUIDE` | User Guides | 내부 운영 가이드 |
+
+: Aqara 드라이브 폴더 코드 체계 {#tbl-folder-codes}
+
+# 기본 파일명 구조
+
+## 표준 명명 규칙
+
+```
+[폴더코드]_[세부카테고리]_[내용설명]_v[버전]_[YYYY-MM-DD]_[상태].[확장자]
+```
+
+## 상태 코드 정의
+
+| 상태 코드 | 의미 | 사용 시점 | 색상 표시 |
+|-----------|------|-----------|-----------|
+| `DRAFT` | 초안 작성중 | 문서 작성 시작 | 🟡 노란색 |
+| `REV` | 검토 요청/진행중 | 검토 의뢰 시 | 🟠 주황색 |
+| `APPR` | 승인 완료 | 승인 후 | 🔵 파란색 |
+| `FINAL` | 최종 확정 | 최종 완료 | 🟢 녹색 |
+| `ARCH` | 보관용 | 사용 종료 | 🔘 회색 |
+
+: 파일 상태 코드 체계 {#tbl-status-codes}
+
+## 버전 관리 체계
+
+- **주 버전 (Major)**: 1.0, 2.0 → 대규모 변경사항
+- **부 버전 (Minor)**: 1.1, 1.2 → 기능 추가/수정  
+- **패치 (Patch)**: 1.1.1, 1.1.2 → 오타/미세수정
+
+::: {.callout-tip}
+## 버전 관리 팁
+중요한 문서의 경우 Google Drive의 버전 히스토리 기능과 파일명 버전을 함께 활용하여 이중 백업 체계를 구축하세요.
+:::
+
+# 폴더별 세부 구조
+
+## 00. 아카라 표준 업무 프로세스 {#proc-folder}
+
+### 폴더 구조
+```
+00_아카라_표준업무프로세스/
+├── 파트너_관련_프로세스/
+├── 인증_관련_프로세스/  
+├── 구매_관련_프로세스/
+├── 인사_관련_프로세스/
+└── 기타_업무_프로세스/
+```
+
+### 파일명 규칙
+```
+PROC_[업무영역]_[프로세스명]_[일련번호]_[설명]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 실제 적용 예시
+
+#### 파트너 관련 프로세스
+```yaml
+기존: "[파트너_컨설팅_002] 인테리어 파트너사 공간 컨설팅 프로세스_2..."
+개선: "PROC_파트너_컨설팅_002_인테리어공간컨설팅_v1.0_2024-03-15_FINAL"
+
+기존: "[파트너_교육_003] 인테리어 파트너사 교육 프로세스_절차_2503..."  
+개선: "PROC_파트너_교육_003_인테리어교육절차_v1.0_2025-03-15_FINAL"
+
+기존: "[파트너_계약_001] 파트너사_정책_20250328"
+개선: "PROC_파트너_계약_001_파트너정책_v1.0_2025-03-28_FINAL"
+```
+
+#### 인증 관련 프로세스  
+```yaml
+기존: "[인증_WWST_002] WWST_인증 프로세스.pdf"
+개선: "PROC_인증_WWST_002_인증절차_v1.0_2024-03-15_FINAL.pdf"
+
+기존: "[인증_KC_001] KC인증 프로세스/Aqara_KC_Certification List_..."
+개선: "PROC_인증_KC_001_KC인증절차_v1.0_2024-03-15_FINAL.pdf"
+```
+
+#### 구매 관련 프로세스
+```yaml  
+기존: "[구매_일반_002] 구매요청 및 발주 프로세스 변경안_20250513"
+개선: "PROC_구매_일반_002_구매발주변경안_v1.0_2025-05-13_FINAL"
+
+기존: "[구매_일반_001] 구매 및 생필특송 프로세스_250410"  
+개선: "PROC_구매_일반_001_구매생필특송_v1.0_2025-04-10_FINAL"
+```
+
+## 01. 회사 주요 서류 {#corp-folder}
+
+### 폴더 구조
+```
+01_회사주요서류/
+├── 01_회사관련_등록증및인증서/
+├── 02_회사규정/
+├── 03_조직도_자리배치도_임직원연락처/
+├── 04_신규입사자_자기소개자료/
+├── 05_각종신청서식/
+└── 06_로고/
+```
+
+### 파일명 규칙
+```
+CORP_[서브폴더코드]_[문서유형]_[세부내용]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 서브폴더 코드 체계
+
+| 서브폴더 | 코드 | 설명 |
+|----------|------|------|
+| 회사관련 등록증 및 인증서 | `REG` | Registration |
+| 회사규정 | `RULE` | Rules & Regulations |
+| 조직도/자리배치도/임직원연락처 | `ORG` | Organization |
+| 신규입사자 자기소개 자료 | `NEW` | New Employee |
+| 각종신청서식 | `FORM` | Forms |
+| 로고 | `LOGO` | Logo & Brand |
+
+: 회사 서류 서브폴더 코드 {#tbl-corp-subcodes}
+
+### 적용 예시
+
+#### 01. 회사 관련 등록증 및 인증서
+```yaml
+예시:
+  - "CORP_REG_사업자등록증_본사_v1.0_2024-03-15_FINAL.pdf"
+  - "CORP_REG_법인등기부등본_본사_v1.0_2024-03-15_FINAL.pdf"  
+  - "CORP_REG_통신판매업신고증_온라인사업_v1.0_2024-03-15_FINAL.pdf"
+```
+
+#### 02. 회사 규정
+```yaml
+예시:
+  - "CORP_RULE_취업규칙_전사_v2.0_2024-03-15_FINAL.pdf"
+  - "CORP_RULE_개인정보처리방침_전사_v1.5_2024-03-15_FINAL.pdf"
+  - "CORP_RULE_정보보안정책_전사_v1.2_2024-03-15_FINAL.pdf"
+```
+
+#### 03. 조직도, 자리배치도, 임직원연락처
+```yaml
+예시:
+  - "CORP_ORG_조직도_2024Q1_v3.0_2024-03-31_FINAL.pdf"
+  - "CORP_ORG_자리배치도_본사_v2.1_2024-03-15_FINAL.pdf"
+  - "CORP_ORG_임직원연락처_전사_v1.8_2024-03-15_CONF.xlsx"
+```
+
+::: {.callout-warning}
+## 개인정보 주의사항
+임직원 연락처 등 개인정보가 포함된 파일은 `CONF` (Confidential) 상태로 표시하고 접근 권한을 제한하세요.
+:::
+
+## 02. 회사 소개서 및 제안서 {#comp-folder}
+
+### 폴더 구조
+```
+02_회사소개서및제안서/
+├── 01_회사소개서/
+├── 02_제안서/  
+├── 03_회사로고/
+├── 04_회사PPT양식/
+├── 05_주요성공사례(Reference)/
+└── ENG/ (영문 자료)
+```
+
+### 파일명 규칙
+```
+COMP_[서브폴더코드]_[문서유형]_[대상/용도]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 현재 파일 변환 예시
+
+#### 회사소개서
+```yaml
+기존: "아카라라이프 회사소개서_20240807.pptx"
+개선: "COMP_INTRO_회사소개서_한국어_v2.3_2024-08-07_FINAL.pptx"
+
+기존: "아카라라이프 회사소개서_20240807.pdf"  
+개선: "COMP_INTRO_회사소개서_한국어_v2.3_2024-08-07_FINAL.pdf"
+```
+
+#### 제안서
+```yaml
+기존: "아카라라이프 제안서 양식_240709.pptx"
+개선: "COMP_PROP_제안서템플릿_표준양식_v1.5_2024-07-09_FINAL.pptx"
+
+기존: "AI Agents와의 협업 문화.pptx"
+개선: "COMP_PROP_AI에이전트협업_내부발표_v1.0_2024-03-15_FINAL.pptx"
+```
+
+#### 영문 자료 (ENG 폴더)
+```yaml
+예시:
+  - "COMP_ENG_회사소개서_영문버전_v2.1_2024-08-07_FINAL.pptx"
+  - "COMP_ENG_제안서템플릿_글로벌_v1.2_2024-07-09_FINAL.pptx"
+```
+
+## 03. 제품별 소개 자료 {#prod-folder}
+
+### 폴더 구조
+```
+03_제품별소개자료/
+├── 00_제품자료_by_MKT/
+├── 01_제품매뉴얼/
+├── 02_제품사용자가이드/
+├── 04_신제품및출시로드맵/
+├── 05_제품사진영상/
+├── 06_경쟁사자료/
+├── 07_교육자료/
+├── 08_제품_Dimensions_with_DWG/
+├── 09_제품QC관련자료/
+└── 11_페어지_리뷰_검수작업률/
+```
+
+### 파일명 규칙
+```
+PROD_[제품코드]_[문서유형]_[모델명/내용]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 제품 코드 체계
+
+| 제품군 | 코드 | 설명 | 예시 모델 |
+|--------|------|------|-----------|
+| Hub 제품군 | `HUB` | 스마트 허브 | M1, M2, M3 |
+| 도어락 제품군 | `LOCK` | 스마트 도어락 | G4, N100, N200 |
+| 센서 제품군 | `SENS` | 각종 센서 | Motion, Door, Temp |
+| 카메라 제품군 | `CAM` | 보안 카메라 | G2H, G3, G4 |
+| 컨트롤러 제품군 | `CTRL` | 스위치/컨트롤러 | H1, D1, Cube |
+| 액세서리 제품군 | `ACC` | 기타 액세서리 | Relay, Adapter |
+
+: 제품 코드 체계 {#tbl-product-codes}
+
+### 서브폴더별 적용 예시
+
+#### 01. 제품 매뉴얼
+```yaml
+예시:
+  - "PROD_HUB_MAN_M2허브_사용자매뉴얼_v2.1_2024-03-15_FINAL.pdf"
+  - "PROD_LOCK_MAN_G4도어락_설치매뉴얼_v1.8_2024-03-12_FINAL.pdf"
+  - "PROD_SENS_MAN_모션센서_사용가이드_v1.5_2024-03-10_FINAL.pdf"
+```
+
+#### 04. 신제품 및 출시로드맵
+```yaml
+예시:
+  - "PROD_ALL_ROADMAP_2024년신제품_Q1업데이트_v3.0_2024-03-31_FINAL.xlsx"
+  - "PROD_HUB_ROADMAP_차세대허브_개발계획_v1.5_2024-03-15_DRAFT.pptx"
+```
+
+#### 08. 제품 Dimensions with DWG
+```yaml
+예시:
+  - "PROD_HUB_DWG_M2허브_외형도면_v1.2_2024-03-15_FINAL.dwg"
+  - "PROD_LOCK_DWG_G4도어락_설치도면_v2.0_2024-03-12_FINAL.dwg"
+```
+
+#### 09. 제품 QC 관련 자료
+```yaml
+예시:
+  - "QC_HUB_TEST_M2허브_품질검사_LOT240315_v1.0_2024-03-15_PASS.xlsx"
+  - "QC_LOCK_TEST_G4도어락_내구성테스트_LOT240312_v1.0_2024-03-12_FAIL.pdf"
+```
+
+::: {.callout-note}
+## QC 파일명 특별 규칙
+품질관리 파일은 `QC_` 접두사를 사용하고 마지막에 테스트 결과(`PASS`, `FAIL`, `PENDING`)를 표시합니다.
+:::
+
+## 04. 솔루션 소개 자료 {#sol-folder}
+
+### 폴더 구조
+```
+04_솔루션소개자료/
+├── 01_HouseHold/
+├── 02_Developer_Platform/
+├── 03_Aqara_Graph_SCADA/
+├── 04_Account_Management/
+├── 05_Aqara플랫폼구조도/
+├── 06_Carepia_For_Office_연구개발팀/
+└── 07_IIAP/
+```
+
+### 파일명 규칙
+```
+SOL_[솔루션코드]_[문서유형]_[세부내용]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 솔루션 코드 체계
+
+| 솔루션 | 코드 | 설명 |
+|--------|------|------|
+| HouseHold | `HOUSE` | 가정용 솔루션 |
+| Developer Platform | `DEV` | 개발자 플랫폼 |
+| Aqara Graph (SCADA) | `SCADA` | 산업용 모니터링 |
+| Account Management | `ACCT` | 계정 관리 |
+| 플랫폼 아키텍처 | `ARCH` | 전체 아키텍처 |
+| Carepia For Office | `OFFICE` | 오피스 솔루션 |
+| IIAP | `IIAP` | IIAP 솔루션 |
+
+: 솔루션 코드 체계 {#tbl-solution-codes}
+
+### 현재 파일 변환 예시
+
+```yaml
+기존: "플랫폼TF_아카라_조직도_231030.xlsx"
+개선: "SOL_ARCH_플랫폼TF_조직도_v1.0_2023-10-30_FINAL.xlsx"
+
+기존: "플랫폼 사업화 미팅 with Lucian_23.10.24."
+개선: "SOL_ARCH_플랫폼사업화_회의자료_v1.0_2023-10-24_FINAL.pptx"
+
+기존: "[연구개발팀]Application_Platform_설명서_ver1.0.pdf"  
+개선: "SOL_ARCH_애플리케이션플랫폼_설명서_v1.0_2023-06-05_FINAL.pdf"
+```
+
+## 05. 계약서 및 대외협정서 {#cont-folder}
+
+### 폴더 구조
+```
+05_계약서및대외협정서/
+├── 01_NDA(비밀유지계약서)/
+├── 02_MOU(상호양해각서)/
+├── 03_물품공급계약서/
+├── 04_서비스공급계약서/
+├── 05_마케팅대행계약서/
+├── 06_용역계약서/
+└── 07_총판대리점계약서/
+```
+
+### 파일명 규칙
+```
+CONT_[계약유형코드]_[상대방]_[계약명]_v[버전]_[체결일]_[상태]
+```
+
+### 계약 유형 코드
+
+| 계약 유형 | 코드 | 설명 |
+|-----------|------|------|
+| 비밀유지계약 | `NDA` | Non-Disclosure Agreement |
+| 상호양해각서 | `MOU` | Memorandum of Understanding |
+| 공급계약 | `SUPPLY` | Supply Agreement |
+| 서비스계약 | `SERVICE` | Service Agreement |
+| 마케팅계약 | `MARKET` | Marketing Agreement |
+| 용역계약 | `CONSULT` | Consulting Agreement |
+| 총판/대리점계약 | `DEALER` | Dealer Agreement |
+| 개인정보취급 | `PRIVACY` | Privacy Agreement |
+
+: 계약 유형 코드 체계 {#tbl-contract-codes}
+
+### 현재 파일 변환 예시
+
+```yaml
+기존: "개인정보취급계약서_신원비즈.pdf"
+개선: "CONT_PRIVACY_신원비즈_개인정보취급계약_v1.0_2025-02-06_SIGNED.pdf"
+```
+
+### 계약 상태 특별 코드
+
+| 상태 | 설명 | 사용 시점 |
+|------|------|-----------|
+| `DRAFT` | 초안 작성 | 계약서 작성 중 |
+| `NEGO` | 협상 중 | 조건 협의 중 |
+| `REVIEW` | 법무 검토 | 내부 검토 중 |
+| `SIGNED` | 서명 완료 | 계약 체결 |
+| `ACTIVE` | 계약 유효 | 계약 이행 중 |
+| `EXPIRED` | 계약 만료 | 계약 기간 종료 |
+| `TERMINATED` | 계약 해지 | 중도 해지 |
+
+: 계약서 전용 상태 코드 {#tbl-contract-status}
+
+## 06. KC / SmartThings 인증현황 {#cert-folder}
+
+### 폴더 구조
+```
+06_KC_SmartThings인증현황/
+├── 01_KC인증/
+├── 02_SmartThings인증/
+├── 03_ROHS인증/
+└── 04_ISO인증/
+```
+
+### 파일명 규칙
+```
+CERT_[인증기관]_[제품코드]_[인증유형]_[유효기간]_[상태]
+```
+
+### 인증 기관 코드
+
+| 인증 기관 | 코드 | 설명 | 주요 인증 |
+|-----------|------|------|-----------|
+| 한국 전파인증 | `KC` | Korea Certification | 전자파적합성, 안전인증 |
+| SmartThings | `ST` | SmartThings Platform | 플랫폼 호환성 인증 |
+| 유해물질제한 | `ROHS` | Restriction of Hazardous Substances | 환경 규제 준수 |
+| 국제표준화기구 | `ISO` | International Organization for Standardization | 품질경영, 환경경영 |
+| 미국 연방통신위원회 | `FCC` | Federal Communications Commission | 미국 전파 인증 |
+| 유럽 안전 인증 | `CE` | Conformité Européenne | 유럽 안전 적합성 |
+
+: 인증 기관 코드 체계 {#tbl-cert-codes}
+
+### 적용 예시
+
+#### 01. KC 인증
+```yaml
+예시:
+  - "CERT_KC_HUB001_전자파적합성_20251215_VALID.pdf"
+  - "CERT_KC_LOCK002_안전인증_20250630_VALID.pdf"
+  - "CERT_KC_SENS003_전파인증_20241231_EXPIRED.pdf"
+  - "CERT_KC_현황_전체제품_2024Q1_SUMMARY.xlsx"
+```
+
+#### 02. SmartThings 인증
+```yaml
+예시:
+  - "CERT_ST_HUB001_플랫폼인증_20251201_VALID.pdf"
+  - "CERT_ST_LOCK002_디바이스인증_20250815_VALID.pdf"
+  - "CERT_ST_현황_인증제품목록_2024Q1_SUMMARY.xlsx"
+```
+
+### 인증 상태 특별 코드
+
+| 상태 | 설명 | 색상 표시 |
+|------|------|-----------|
+| `VALID` | 인증 유효 | 🟢 녹색 |
+| `EXPIRED` | 인증 만료 | 🔴 빨간색 |
+| `PENDING` | 인증 대기 | 🟡 노란색 |
+| `RENEWAL` | 갱신 중 | 🟠 주황색 |
+| `REJECTED` | 인증 거부 | ⚫ 검은색 |
+
+: 인증 상태 코드 {#tbl-cert-status}
+
+## 07. 전사 제작물 (브로셔, ...) {#mark-folder}
+
+### 폴더 구조  
+```
+07_전사제작물_브로셔/
+├── 01_브로셔_리플렛/
+├── 02_전시용_자료/
+├── 03_홍보영상/
+└── 04_구버전/
+```
+
+### 파일명 규칙
+```
+MARK_[자료유형]_[대상/용도]_[세부내용]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 자료 유형 코드
+
+| 자료 유형 | 코드 | 설명 | 주요 용도 |
+|-----------|------|------|-----------|
+| 브로셔 | `BROCH` | Brochure | 회사/제품 종합 소개 |
+| 리플렛/전단 | `FLYER` | Flyer/Leaflet | 간단한 홍보 자료 |
+| 홍보영상 | `VIDEO` | Promotional Video | 동영상 콘텐츠 |
+| 전시용 자료 | `EXHIBIT` | Exhibition Materials | 전시회/박람회용 |
+| 배너/현수막 | `BANNER` | Banner | 대형 출력물 |
+
+: 마케팅 자료 유형 코드 {#tbl-marketing-codes}
+
+### 현재 파일 변환 예시
+
+#### 브로셔/리플렛
+```yaml
+기존: "[B2C] 브랜드 제냄 홍보 리플렛_240626.pdf"
+개선: "MARK_FLYER_B2C_브랜드제냄홍보_v1.0_2024-06-26_FINAL.pdf"
+
+기존: "[전시] 전제품 리플렛(웹용).pdf"
+개선: "MARK_FLYER_전시_전제품소개_웹용_v1.0_2024-03-15_FINAL.pdf"
+
+기존: "[전시] 아카라라이프 Full Brochure_241017.pdf"
+개선: "MARK_BROCH_전시_아카라라이프풀브로셔_v2.0_2024-10-17_FINAL.pdf"
+```
+
+#### 제품별 리플렛
+```yaml  
+기존: "[전시] 아카라 스포트웨어 리플렛_241028.pdf"
+개선: "MARK_FLYER_전시_스포트웨어제품_v1.0_2024-10-28_FINAL.pdf"
+
+기존: "[전시] 시나리오 리플렛_240809.pdf"
+개선: "MARK_FLYER_전시_사용시나리오_v1.0_2024-08-09_FINAL.pdf"
+```
+
+#### 홍보영상
+```yaml
+기존: "MWS(로고수정됨).mp4"
+개선: "MARK_VIDEO_홍보_MWS로고수정_v2.0_2024-11-13_FINAL.mp4"
+```
+
+::: {.callout-tip}
+## 마케팅 자료 관리 팁
+- 전시회/박람회별로 서브폴더 생성 권장
+- 인쇄용과 웹용을 명확히 구분
+- 구버전은 별도 보관하되 정기적으로 정리
+:::
+
+## 08. 스마트한 아카라 생활 가이드 {#guide-folder}
+
+### 폴더 구조
+```
+08_스마트한아카라생활가이드/
+├── 01_회사제도및시스템/
+├── 02_구글워크스페이스매뉴얼/
+├── 03_사무실IoT자동화사용가이드/  
+├── 04_사무실장비사용가이드/
+├── 05_ERP매뉴얼/
+├── 06_종합건강검진(KMI)/
+└── 07_인사평가양식/
+```
+
+### 파일명 규칙
+```
+GUIDE_[영역코드]_[시스템/제도명]_[세부내용]_v[버전]_[YYYY-MM-DD]_[상태]
+```
+
+### 영역 코드
+
+| 영역 | 코드 | 설명 | 담당 부서 |
+|------|------|------|-----------|
+| 인사 관련 | `HR` | Human Resources | 경영지원실 |
+| IT 시스템 | `IT` | Information Technology | IT팀 |
+| IoT 자동화 | `IOT` | Internet of Things | 기술팀 |
+| 장비 사용 | `EQUIP` | Equipment | 총무팀 |
+| 건강 관련 | `HEALTH` | Health Management | 경영지원실 |
+| 평가 관련 | `EVAL` | Evaluation | 인사팀 |
+
+: 가이드 영역 코드 체계 {#tbl-guide-codes}
+
+### 현재 파일 변환 예시
+
+#### 인사/평가 관련
+```yaml
+기존: "2025년 하반기 부서별 업적면발 R&R_v1.1_20250728 (공유용)"
+개선: "GUIDE_HR_부서별업적면발_RnR_하반기_v1.1_2025-07-28_SHARE.xlsx"
+
+기존: "2025년 동우회 기업현황_공유용_(2025.06.30 Update)"
+개선: "GUIDE_HR_동우회기업현황_2025년_v2.0_2025-06-30_SHARE.pptx"
+
+기존: "#. 마이워크스페이스_업주사 이용 매뉴얼.pdf"
+개선: "GUIDE_IT_마이워크스페이스_이용매뉴얼_v1.0_2024-05-16_FINAL.pdf"
+```
+
+### 서브폴더별 적용 예시
+
+#### 02. 구글워크스페이스 매뉴얼
+```yaml
+예시:
+  - "GUIDE_IT_구글워크스페이스_기본사용법_v2.0_2024-03-15_FINAL.pdf"
+  - "GUIDE_IT_구글드라이브_파일관리_v1.8_2024-03-12_FINAL.pdf"
+  - "GUIDE_IT_구글미트_화상회의_v1.3_2024-03-10_FINAL.pdf"
+```
+
+#### 03. 사무실 IoT 자동화 사용가이드
+```yaml  
+예시:
+  - "GUIDE_IOT_조명제어_자동화설정_v2.2_2024-03-15_FINAL.pdf"
+  - "GUIDE_IOT_온도조절_스케줄관리_v1.9_2024-03-12_FINAL.pdf"
+  - "GUIDE_IOT_보안시스템_출입관리_v1.6_2024-03-10_FINAL.pdf"
+```
+
+#### 05. ERP 매뉴얼
+```yaml
+예시:
+  - "GUIDE_IT_ERP시스템_기본사용법_v3.1_2024-10-14_FINAL.pdf"
+  - "GUIDE_IT_ERP_구매관리_프로세스_v2.5_2024-03-15_FINAL.pdf"
+  - "GUIDE_IT_ERP_재고관리_실무가이드_v1.8_2024-03-12_FINAL.pdf"
+```
+
+# 구현 전략
+
+## 단계별 마이그레이션 계획
+
+기존 문제점 해결
+개별 공유의 한계
+yaml현재 상황:
+  - Support 계정에서 폴더별 개별 공유
+  - 직원마다 다른 폴더 구조로 표시
+  - 일관성 없는 접근 권한
+  - 구조 파편화로 인한 검색 어려움
+
+해결 방안:
+  - 단일 공유드라이브로 통합
+  - 모든 직원에게 동일한 구조 제공  
+  - 체계적인 권한 관리
+  - 통합 검색 인덱스 구축
+마이그레이션 프로세스
+mermaidgraph LR
+    A[기존 개별 공유] --> B[공유드라이브 생성]
+    B --> C[폴더 구조 마이그레이션]
+    C --> D[권한 재설정]
+    D --> E[검색 인덱스 구축]
+    E --> F[사용자 교육]
+    F --> G[정식 오픈]
+
+## 권한 관리 체계
+
+### 3단계 접근 권한
+
+뷰어 권한: 모든 직원 (파일 열람만)
+편집자 권한: 해당 부서 담당자 (파일 수정 가능)
+관리자 권한: 경영지원실, 신사업실 (구조 변경 가능)
+
+### 3개월 실행 계획
+
+#### Phase 0: 기획 및 도구 개발 (2025년 10월)
+Week 1-2: 프로젝트 기획
+
+ 상세 요구사항 분석
+ 검색엔진 외주업체 선정
+ 기술 스펙 확정
+
+Week 3-4: 도구 개발
+
+ Google Apps Script 자동화 도구 개발
+ Service Account 기반 API 스크립트 구축
+ 파일명 변환 알고리즘 개발
+ 요약맵 생성 프로토타입 완성
+
+#### Phase 1: 공유드라이브 구축 (2025년 11월)
+Week 1-2: 인프라 구축
+
+ 공유드라이브 생성 및 구조 설정
+ 기존 파일 마이그레이션
+ 권한 체계 구축
+
+Week 3-4: 검색엔진 구축
+
+ AI 기반 검색엔진 배포
+ 폴더별 요약맵 생성
+ 검색 인덱스 구축
+ 테스트 및 최적화
+
+#### Phase 2: 최적화 및 오픈 (2025년 12월)
+Week 1-2: 파일명 표준화
+
+ AI 기반 일괄 파일명 변경
+ 중복 파일 정리
+ 품질 검증
+
+Week 3-4: 사용자 교육 및 오픈
+
+ 부서별 교육 실시
+ 사용자 매뉴얼 배포
+ 2026년 1월 2일 정식 오픈
+
+## 자동화 도구 활용
+
+### Google Apps Script 파일명 생성기
+
+```javascript
+/**
+ * Aqara 파일명 자동 생성 함수
+ * @param {string} folder - 폴더명
+ * @param {string} category - 세부 카테고리  
+ * @param {string} description - 내용 설명
+ * @param {string} version - 버전 (예: "1.0")
+ * @param {string} status - 상태 (DRAFT, REV, APPR, FINAL, ARCH)
+ * @return {string} 생성된 파일명
+ */
+function generateAqaraFileName(folder, category, description, version, status = 'DRAFT') {
+  // 폴더 코드 매핑
+  const folderCodes = {
+    '아카라표준업무프로세스': 'PROC',
+    '회사주요서류': 'CORP', 
+    '회사소개서및제안서': 'COMP',
+    '제품별소개자료': 'PROD',
+    '솔루션소개자료': 'SOL',
+    '계약서및대외협정서': 'CONT',
+    'KC인증현황': 'CERT',
+    '전사제작물': 'MARK',
+    '생활가이드': 'GUIDE'
+  };
+  
+  // 오늘 날짜 (YYYY-MM-DD 형식)
+  const today = new Date();
+  const dateStr = today.toISOString().split('T')[0];
+  
+  // 폴더 코드 확인
+  const code = folderCodes[folder] || 'MISC';
+  
+  // 파일명 생성
+  const fileName = `${code}_${category}_${description}_v${version}_${dateStr}_${status}`;
+  
+  return fileName;
+}
+
+/**
+ * 사용 예시 함수들
+ */
+function exampleUsage() {
+  // 회사소개서 예시
+  const companyIntro = generateAqaraFileName(
+    '회사소개서및제안서', 
+    'INTRO', 
+    '회사소개서_한국어', 
+    '2.1', 
+    'FINAL'
+  );
+  console.log(companyIntro);
+  // 결과: COMP_INTRO_회사소개서_한국어_v2.1_2024-03-15_FINAL
+  
+  // 제품 매뉴얼 예시
+  const productManual = generateAqaraFileName(
+    '제품별소개자료',
+    'HUB_MAN', 
+    'M2허브_사용자매뉴얼',
+    '1.5',
+    'FINAL'
+  );
+  console.log(productManual);
+  // 결과: PROD_HUB_MAN_M2허브_사용자매뉴얼_v1.5_2024-03-15_FINAL
+  
+  // 계약서 예시
+  const contract = generateAqaraFileName(
+    '계약서및대외협정서',
+    'NDA',
+    'LG전자_기술정보비밀유지',
+    '1.0', 
+    'SIGNED'
+  );
+  console.log(contract);
+  // 결과: CONT_NDA_LG전자_기술정보비밀유지_v1.0_2024-03-15_SIGNED
+}
+
+/**
+ * 구글 시트에서 사용할 수 있는 커스텀 함수
+ * =AQARA_FILENAME("회사소개서및제안서", "INTRO", "회사소개서_한국어", "2.1", "FINAL")
+ */
+function AQARA_FILENAME(folder, category, description, version, status) {
+  return generateAqaraFileName(folder, category, description, version, status || 'DRAFT');
+}
+```
+
+### Google Drive API 활용 대량 변경 스크립트
+
+```javascript
+/**
+ * 폴더 내 파일 일괄 이름 변경 함수
+ */
+function batchRenameFiles() {
+  // Aqara 공용 드라이브 폴더 ID (실제 값으로 변경 필요)
+  const AQARA_DRIVE_ID = 'YOUR_SHARED_DRIVE_ID';
+  
+  // 변경할 폴더별 설정
+  const folderConfigs = [
+    {
+      folderId: 'COMPANY_INTRO_FOLDER_ID',
+      folderCode: 'COMP',
+      defaultCategory: 'INTRO'
+    },
+    {
+      folderId: 'PRODUCT_FOLDER_ID', 
+      folderCode: 'PROD',
+      defaultCategory: 'SPEC'
+    }
+    // 필요에 따라 추가
+  ];
+  
+  folderConfigs.forEach(config => {
+    const folder = DriveApp.getFolderById(config.folderId);
+    const files = folder.getFiles();
+    
+    while (files.hasNext()) {
+      const file = files.next();
+      const oldName = file.getName();
+      
+      // 이미 새 명명 규칙을 따르는 파일은 건너뛰기
+      if (oldName.startsWith(config.folderCode + '_')) {
+        continue;
+      }
+      
+      // 파일 정보 추출 및 새 이름 생성
+      const newName = convertToNewNaming(oldName, config);
+      
+      if (newName !== oldName) {
+        try {
+          file.setName(newName);
+          console.log(`변경 완료: ${oldName} → ${newName}`);
+        } catch (error) {
+          console.error(`변경 실패: ${oldName} - ${error.message}`);
+        }
+      }
+    }
+  });
+}
+
+/**
+ * 기존 파일명을 새 명명 규칙으로 변환
+ */
+function convertToNewNaming(oldName, config) {
+  // 확장자 분리
+  const lastDotIndex = oldName.lastIndexOf('.');
+  const nameWithoutExt = lastDotIndex > -1 ? oldName.substring(0, lastDotIndex) : oldName;
+  const extension = lastDotIndex > -1 ? oldName.substring(lastDotIndex) : '';
+  
+  // 날짜 패턴 찾기 (YYMMDD, YYYYMMDD, YYYY-MM-DD 등)
+  const datePatterns = [
+    /(\d{6})/g,    // YYMMDD
+    /(\d{8})/g,    // YYYYMMDD  
+    /(\d{4}-\d{2}-\d{2})/g  // YYYY-MM-DD
+  ];
+  
+  let detectedDate = new Date().toISOString().split('T')[0]; // 기본값: 오늘
+  
+  // 날짜 패턴 검색
+  for (const pattern of datePatterns) {
+    const match = nameWithoutExt.match(pattern);
+    if (match) {
+      detectedDate = parseDetectedDate(match[0]);
+      break;
+    }
+  }
+  
+  // 버전 정보 추출 (v1, v1.0, v1.2 등)
+  const versionMatch = nameWithoutExt.match(/v?(\d+\.?\d*)/i);
+  const version = versionMatch ? versionMatch[1] : '1.0';
+  
+  // 설명 부분 추출 (날짜, 버전 제거 후)
+  let description = nameWithoutExt
+    .replace(/v?\d+\.?\d*/gi, '')  // 버전 제거
+    .replace(/\d{4}-?\d{2}-?\d{2}/g, '')  // 날짜 제거
+    .replace(/\d{6,8}/g, '')  // 짧은 날짜 제거
+    .replace(/[_\-\s]+/g, '_')  // 구분자 정리
+    .replace(/^_|_$/g, '');  // 앞뒤 언더스코어 제거
+  
+  // 새 파일명 생성
+  const newName = `${config.folderCode}_${config.defaultCategory}_${description}_v${version}_${detectedDate}_FINAL${extension}`;
+  
+  return newName;
+}
+
+/**
+ * 다양한 날짜 형식을 YYYY-MM-DD로 변환
+ */
+function parseDetectedDate(dateStr) {
+  if (dateStr.length === 6) {
+    // YYMMDD → YYYY-MM-DD
+    const year = '20' + dateStr.substring(0, 2);
+    const month = dateStr.substring(2, 4);
+    const day = dateStr.substring(4, 6);
+    return `${year}-${month}-${day}`;
+  } else if (dateStr.length === 8) {
+    // YYYYMMDD → YYYY-MM-DD
+    const year = dateStr.substring(0, 4);
+    const month = dateStr.substring(4, 6);  
+    const day = dateStr.substring(6, 8);
+    return `${year}-${month}-${day}`;
+  } else if (dateStr.includes('-')) {
+    // 이미 YYYY-MM-DD 형식
+    return dateStr;
+  }
+  
+  return new Date().toISOString().split('T')[0]; // 파싱 실패 시 오늘 날짜
+}
+```
+
+## 품질 관리 체계
+
+### 정기 점검 프로세스
+
+#### 주간 점검 (매주 금요일)
+- [ ] 신규 파일 명명 규칙 준수 확인
+- [ ] 버전 관리 상태 점검
+- [ ] 중복 파일 발견 시 즉시 정리
+
+#### 월간 점검 (매월 마지막 주)
+- [ ] 폴더별 파일 정리 및 구조 검토
+- [ ] 접근 권한 적절성 확인
+- [ ] 용량 사용 현황 모니터링
+
+#### 분기별 점검 (3, 6, 9, 12월)
+- [ ] 전체 드라이브 구조 검토 및 개선안 도출
+- [ ] 사용자 피드백 수집 및 반영
+- [ ] 새로운 업무 영역 발생 시 코드 체계 확장
+
+### 품질 지표 (KPI)
+
+#### 운영 효율성 지표
+
+| 지표명 | 목표값 | 측정 방법 | 측정 주기 |
+|--------|--------|-----------|-----------|
+| 파일 검색 시간 단축률 | 70% 이상 | 사용자 설문 | 분기별 |
+| 명명 규칙 준수율 | 95% 이상 | 자동 스크립트 검사 | 주간 |
+| 중복 파일 비율 | 5% 이하 | 파일 분석 도구 | 월간 |
+| 사용자 만족도 | 4.0/5.0 이상 | 만족도 조사 | 분기별 |
+
+: 품질 지표 체계 {#tbl-kpi}
+
+#### 협업 효율성 지표
+
+| 지표명 | 현재값 (추정) | 목표값 | 개선 효과 |
+|--------|---------------|--------|-----------|
+| 파일 찾기 평균 시간 | 3분 | 1분 | 67% 단축 |
+| 버전 혼선 발생률 | 20% | 5% | 75% 감소 |
+| 문서 공유 시간 | 5분 | 2분 | 60% 단축 |
+| 신규 직원 온보딩 시간 | 2시간 | 30분 | 75% 단축 |
+
+: 협업 효율성 개선 예상 효과 {#tbl-efficiency}
+
+### 오류 방지 체크리스트
+
+#### 파일 생성 시 확인사항
+- [ ] **폴더 코드 정확성**: 올바른 폴더에 해당하는 코드 사용
+- [ ] **버전 번호 연속성**: 이전 버전과 논리적 연결성 확인
+- [ ] **날짜 형식 통일**: YYYY-MM-DD 형식 준수
+- [ ] **상태 코드 적절성**: 현재 문서 상태와 일치 여부
+- [ ] **설명 명확성**: 파일 내용을 명확히 표현하는 설명
+
+#### 파일 수정 시 확인사항  
+- [ ] **버전 업데이트**: 수정 시 적절한 버전 증가
+- [ ] **상태 변경**: 수정 단계에 맞는 상태 코드 적용
+- [ ] **이전 버전 보관**: 중요 문서의 이전 버전 안전 보관
+- [ ] **변경 사항 기록**: 주요 변경사항 별도 기록 유지
+
+::: {.callout-important}
+## 중요 파일 백업 규칙
+- 계약서, 인증서 등 중요 문서는 수정 전 반드시 백업 생성
+- 백업 파일은 원본과 동일한 위치에 `_BACKUP_[날짜]` 접미사로 저장
+- 백업 파일은 분기별로 정리하되 최소 1년간 보관
+:::
+
+# 교육 및 지원 체계
+
+## 부서별 맞춤형 교육 프로그램
+
+### 영업팀 집중 교육
+
+#### 주요 학습 내용
+- **COMP 폴더**: 회사소개서, 제안서 작성 및 관리
+- **CONT 폴더**: 고객사 계약서 버전 관리
+- **PROD 폴더**: 제품 자료 활용 방법
+
+#### 실무 시나리오 연습
+```yaml
+시나리오 1: "LG전자 스마트홈 프로젝트 제안서 작성"
+- 단계별 파일명 작성 연습
+- 버전 관리 실습 (DRAFT → REV → FINAL)
+- 고객별 제안서 구분 방법
+
+시나리오 2: "삼성물산과의 NDA 체결 프로세스"  
+- 계약서 파일명 규칙 적용
+- 계약 단계별 상태 관리
+- 법무팀과의 협업 프로세스
+```
+
+### 기술팀 집중 교육
+
+#### 주요 학습 내용
+- **PROD 폴더**: 제품 스펙, 매뉴얼, QC 자료 관리
+- **SOL 폴더**: 솔루션 아키텍처 문서 체계
+- **CERT 폴더**: 인증서류 관리 및 갱신 추적
+
+#### 기술문서 작성 가이드
+```yaml
+제품 매뉴얼 작성 시:
+- 제품 코드 정확한 사용법
+- 버전별 호환성 정보 포함
+- 다국어 버전 구분 방법
+
+인증 문서 관리 시:
+- 유효기간 기반 파일명 작성
+- 갱신 필요 시점 추적 방법
+- 인증 기관별 분류 체계
+```
+
+## 지원 도구 및 리소스
+
+### 빠른 참조 가이드
+
+#### 자주 사용하는 파일명 패턴
+
+| 문서 유형 | 패턴 | 예시 |
+|-----------|------|------|
+| 회사소개서 | `COMP_INTRO_[대상]_[언어]_v[버전]_[날짜]_FINAL` | `COMP_INTRO_회사소개서_한국어_v2.1_2024-03-15_FINAL` |
+| 제품 매뉴얼 | `PROD_[제품코드]_MAN_[모델명]_v[버전]_[날짜]_FINAL` | `PROD_HUB_MAN_M2허브_v1.3_2024-03-15_FINAL` |
+| 계약서 | `CONT_[유형]_[상대방]_[계약명]_v[버전]_[체결일]_[상태]` | `CONT_NDA_LG전자_기술협력_v1.0_2024-03-15_SIGNED` |
+| 인증서 | `CERT_[기관]_[제품]_[인증유형]_[유효기간]_[상태]` | `CERT_KC_HUB001_전파인증_20251215_VALID` |
+
+: 주요 파일명 패턴 {#tbl-filename-patterns}
+
+### Google Drive 검색 활용법
+
+#### 고급 검색 기법
+
+```yaml
+코드 기반 검색:
+- "COMP_INTRO" → 모든 회사소개서 검색
+- "PROD_HUB" → 허브 관련 모든 제품 문서
+- "CONT_NDA" → 모든 NDA 계약서
+
+상태 기반 검색:  
+- "FINAL" → 최종 확정된 모든 문서
+- "DRAFT" → 작업 중인 모든 문서
+- "REV" → 검토 중인 모든 문서
+
+날짜 범위 검색:
+- "2024-03" → 2024년 3월 생성/수정된 문서
+- "v2" → 버전 2.x 문서들
+```
+
+#### 검색 효율성 극대화 팁
+
+::: {.callout-tip}
+## 검색 성능 향상 방법
+
+1. **부분 검색 활용**: 전체 파일명 대신 핵심 키워드만 검색
+   - 예: `HUB_MAN` 입력으로 모든 허브 매뉴얼 검색
+
+2. **와일드카드 활용**: `*` 기호로 패턴 검색
+   - 예: `PROD_*_v2*` 으로 제품 문서 버전 2.x 모두 검색
+
+3. **필터 조합**: 파일 유형, 수정일, 소유자 등 복합 필터 활용
+   - 예: PDF + 최근 1개월 + "CERT" 검색
+
+4. **즐겨찾기 활용**: 자주 사용하는 폴더를 즐겨찾기에 추가하여 빠른 접근
+:::
+
+### 문제해결 가이드
+
+#### 자주 발생하는 문제와 해결책
+
+| 문제 | 원인 | 해결책 |
+|------|------|--------|
+| 파일을 찾을 수 없음 | 잘못된 폴더 위치 | 전체 드라이브에서 파일명 키워드 검색 |
+| 버전이 혼재됨 | 구 명명 규칙과 신 규칙 혼용 | 구 파일에 `[OLD]` 표시 후 점진적 변경 |
+| 중복 파일 발생 | 여러 명이 동시 작업 | 작업 전 최신 버전 확인 및 소유자 지정 |
+| 접근 권한 없음 | 폴더/파일 권한 설정 오류 | 폴더 관리자에게 권한 요청 |
+
+: 일반적인 문제 해결 가이드 {#tbl-troubleshooting}
+
+## FAQ (자주 묻는 질문)
+
+### 일반적인 질문
+
+**Q1: 기존 파일들을 언제까지 새 규칙으로 바꿔야 하나요?**
+
+A1: 단계별로 진행됩니다:
+- **즉시**: 새로 생성하는 모든 파일
+- **1-2개월 내**: 자주 사용하는 중요 문서  
+- **3-6개월 내**: 모든 기존 파일
+
+**Q2: 버전 번호는 어떻게 매겨야 하나요?**
+
+A2: 다음 규칙을 따라주세요:
+- **대규모 변경**: 주 버전 증가 (1.0 → 2.0)
+- **일반적 수정**: 부 버전 증가 (1.1 → 1.2)  
+- **오타/미세수정**: 패치 버전 증가 (1.1.1 → 1.1.2)
+
+**Q3: 어떤 상태 코드를 사용해야 하나요?**
+
+A3: 문서의 현재 상태에 따라:
+- **DRAFT**: 작성 중
+- **REV**: 검토 요청
+- **APPR**: 승인 완료
+- **FINAL**: 최종 확정
+- **ARCH**: 보관용 (사용 종료)
+
+### 기술적 질문
+
+**Q4: Google Apps Script 도구를 어떻게 사용하나요?**
+
+A4: 
+1. Google Drive에서 Apps Script 열기
+2. 제공된 코드 복사하여 붙여넣기
+3. 함수 실행하여 자동 파일명 생성
+4. 자세한 사용법은 IT팀에 문의
+
+**Q5: 파일 검색이 잘 안 되는데 어떻게 하나요?**
+
+A5: 다음 방법을 시도해보세요:
+1. **부분 검색**: 전체 파일명 대신 핵심 키워드만
+2. **코드 검색**: 폴더 코드(COMP, PROD 등) 활용  
+3. **고급 검색**: 필터 옵션 조합 사용
+4. **전체 드라이브 검색**: 특정 폴더 외에도 전체에서 검색
+
+**Q6: 중요한 문서를 실수로 수정했을 때는?**
+
+A6: 
+1. **Google Drive 버전 히스토리**: 파일 우클릭 → 버전 기록 → 이전 버전 복원
+2. **백업 파일 활용**: `_BACKUP_` 접미사가 있는 파일 확인
+3. **휴지통 확인**: 삭제된 경우 휴지통에서 복원
+4. **IT팀 지원 요청**: 복구가 어려운 경우 즉시 연락
+
+# 결론 및 향후 계획
+
+## 기대 효과
+
+### 정량적 효과
+
+| 영역 | 현재 상태 | 목표 상태 | 개선율 |
+|------|-----------|-----------|--------|
+| **파일 검색 시간** | 평균 3분 | 평균 1분 | **67% 단축** |
+| **버전 혼선 발생률** | 20% | 5% | **75% 감소** |
+| **문서 공유 시간** | 평균 5분 | 평균 2분 | **60% 단축** |
+| **신규 직원 적응 시간** | 2시간 | 30분 | **75% 단축** |
+| **명명 규칙 준수율** | 30% | 95% | **217% 향상** |
+
+: 정량적 개선 효과 예측 {#tbl-quantitative-effects}
+
+### 정성적 효과
+
+#### 업무 효율성 향상
+- **즉시 파일 식별**: 코드 체계로 파일 성격 즉시 파악
+- **체계적 협업**: 명확한 버전 관리와 상태 추적
+- **일관된 업무 프로세스**: 표준화된 문서 관리 체계
+
+#### 조직 역량 강화  
+- **지식 자산 체계화**: 암묵지의 형식지 전환 촉진
+- **업무 연속성 확보**: 담당자 변경 시에도 안정적 업무 인수인계
+- **의사결정 지원**: 체계적 정보 관리로 신속한 의사결정 지원
+
+#### 미래 대비 역량
+- **AI 활용 기반 구축**: 구조화된 데이터로 AI 도구 활용 토대 마련
+- **확장성 확보**: 조직 성장에 따른 유연한 확장 가능
+- **표준화 문화 정착**: 지속적인 프로세스 개선 문화 조성
+
+## 향후 발전 방향
+
+### 단기 계획 (6개월 내)
+
+#### 시스템 안정화
+- [ ] **전면 적용 완료**: 모든 파일에 새 명명 규칙 적용
+- [ ] **사용자 교육 완료**: 전 직원 교육 프로그램 이수
+- [ ] **자동화 도구 정착**: Google Apps Script 도구 전사 활용
+
+#### 성과 측정 및 개선
+- [ ] **KPI 모니터링 체계 구축**: 실시간 성과 추적 시스템
+- [ ] **사용자 피드백 수집**: 정기적 만족도 조사 및 개선안 도출
+- [ ] **프로세스 최적화**: 초기 운영 과정에서 발견된 문제점 해결
+
+### 중기 계획 (1년 내)
+
+#### 고도화 및 확장
+- [ ] **메타데이터 체계 도입**: 파일 속성 정보 자동 태깅
+- [ ] **워크플로우 자동화**: 승인 프로세스 자동화 도구 구축  
+- [ ] **통합 검색 시스템**: 전사 문서 통합 검색 플랫폼 구축
+
+#### AI 활용 준비
+- [ ] **문서 분류 AI**: 자동 문서 분류 및 태깅 시스템
+- [ ] **지능형 검색**: 자연어 기반 의미론적 검색 기능
+- [ ] **문서 요약 AI**: 중요 문서 자동 요약 및 인사이트 추출
+
+### 장기 계획 (2년 내)
+
+#### 지식 관리 플랫폼으로 진화
+- [ ] **통합 지식 베이스**: 문서, 프로세스, 노하우 통합 관리
+- [ ] **AI 어시스턴트**: 업무별 맞춤형 AI 어시스턴트 구축
+- [ ] **예측 분석**: 업무 패턴 분석 기반 선제적 지원
+
+## 성공을 위한 핵심 요소
+
+### 조직 차원
+1. **경영진 지원**: 변화 관리에 대한 최고 경영진의 명확한 의지 표명
+2. **충분한 교육**: 단계별, 부서별 맞춤형 교육 프로그램 운영
+3. **지속적 모니터링**: 정기적 성과 측정 및 개선사항 도출
+
+### 개인 차원  
+1. **적극적 참여**: 새로운 시스템에 대한 열린 마음과 적극적 활용
+2. **꾸준한 실천**: 일관된 명명 규칙 준수 및 체계적 파일 관리
+3. **피드백 제공**: 사용 과정에서 발견한 개선점 적극적 공유
+
+### 기술 차원
+1. **안정적 도구**: 검증된 자동화 도구 및 백업 시스템 운영
+2. **확장 가능성**: 향후 조직 성장과 업무 변화에 대응 가능한 유연한 구조
+3. **보안 강화**: 문서 보안 및 접근 권한 관리 체계 강화
+
+::: {.callout-note}
+## 성공적인 변화 관리를 위한 제안
+
+이 가이드의 성공적인 실행을 위해서는 **점진적 접근**이 핵심입니다. 급격한 변화보다는 단계별 적용을 통해 직원들의 적응도를 높이고, 지속적인 피드백을 통해 시스템을 개선해나가는 것이 중요합니다.
+
+특히, 각 부서의 **업무 특성을 반영한 맞춤형 적용**과 **충분한 교육 및 지원**이 변화 관리의 성공을 좌우할 것입니다.
+:::
+
+---
+
+## 부록
+
+### A. 코드 참조표
+
+#### 폴더 코드 전체 목록
+```yaml
+PROC: 아카라 표준 업무 프로세스 (Process Standards)
+CORP: 회사 주요 서류 (Corporate Documents)  
+COMP: 회사 소개서 및 제안서 (Company Presentation)
+PROD: 제품별 소개 자료 (Product Information)
+SOL:  솔루션 소개 자료 (Solution Portfolio)
+CONT: 계약서 및 대외협정서 (Contracts)
+CERT: KC/SmartThings 인증현황 (Certifications)
+MARK: 전사 제작물 (Marketing Materials)
+GUIDE: 스마트한 아카라 생활 가이드 (User Guides)
+```
+
+#### 상태 코드 전체 목록
+```yaml
+DRAFT:    초안 작성중 (Draft)
+REV:      검토 요청/진행중 (Under Review)  
+APPR:     승인 완료 (Approved)
+FINAL:    최종 확정 (Final Version)
+ARCH:     보관용 (Archived)
+SIGNED:   서명 완료 (계약서 전용)
+ACTIVE:   계약 유효 (계약서 전용)
+EXPIRED:  만료됨 (계약서/인증서 전용)
+VALID:    유효함 (인증서 전용)
+```
+
+### B. 자동화 스크립트 전체 코드
+
+자세한 Google Apps Script 코드는 별도 파일로 제공되며, 다음 기능을 포함합니다:
+
+- 자동 파일명 생성 함수
+- 일괄 파일명 변경 스크립트  
+- 중복 파일 검색 도구
+- 명명 규칙 준수 검사 스크립트
+- 정기 보고서 생성 도구
+
+### C. 교육 자료 목록
+
+#### 부서별 교육 자료
+1. **영업팀용 가이드**: COMP, CONT 폴더 중심 실무 가이드
+2. **기술팀용 가이드**: PROD, SOL, CERT 폴더 중심 기술 문서 관리
+3. **마케팅팀용 가이드**: MARK, COMP 폴더 중심 마케팅 자료 관리
+4. **경영지원팀용 가이드**: CORP, GUIDE, PROC 폴더 중심 관리 업무
+
+#### 교육 동영상
+1. **기본 개념 소개** (10분): 새로운 명명 체계 개요
+2. **실무 적용법** (15분): 부서별 실제 적용 사례
+3. **자동화 도구 사용법** (10분): Google Apps Script 활용
+4. **문제해결 가이드** (5분): 자주 발생하는 문제 해결법
+
+---
+
+*본 문서는 Aqara Life의 구글 드라이브 효율적 관리를 위한 종합 가이드입니다.*  
+*문의사항이나 개선 제안이 있으시면 경영지원실로 연락해 주시기 바랍니다.*
+
+**문서 정보**
+- 작성일: 2025년 09월 29일
+- 버전: v1.0  
+- 승인자: 경영지원실
+- 차기 검토일: 2025년 09월 29일
